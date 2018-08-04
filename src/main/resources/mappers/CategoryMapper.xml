@@ -31,7 +31,7 @@
       update_time)
     values (#{id,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{status,jdbcType=BIT}, #{sortOrder,jdbcType=INTEGER}, now(),
-     now())
+      now())
   </insert>
   <insert id="insertSelective" parameterType="com.mmall.pojo.Category" >
     insert into mmall_category
