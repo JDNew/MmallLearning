@@ -1,7 +1,10 @@
 package com.mmall.service;
 
 import com.mmall.common.ServerResponse;
+import com.mmall.pojo.Category;
 import com.mmall.pojo.User;
+
+import java.util.List;
 
 public interface IUserService {
 
@@ -22,5 +25,8 @@ public interface IUserService {
     ServerResponse<User> updateInformation(User user);
 
     ServerResponse<User> getInformation(Integer userId);
+
+    ServerResponse checkAdminRole(User user);
+
 
 }
