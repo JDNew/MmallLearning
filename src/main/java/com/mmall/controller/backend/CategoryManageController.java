@@ -6,8 +6,6 @@ import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.ICategoryService;
 import com.mmall.service.IUserService;
-import com.sun.tools.internal.jxc.ap.Const;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +61,7 @@ public class CategoryManageController {
 
     @RequestMapping("get_category.do")
     @ResponseBody
-    public ServerResponse getChildrenParallelCategory(HttpSession httpSession , @RequestParam(value = "categoryId" , defaultValue = "0") Integer categoryId){
+    public ServerResponse getChildrenParallelCategory(HttpSession httpSession, @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
         User user = (User) httpSession.getAttribute(Constant.CURRENT_USER);
         if (null == user) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
@@ -71,7 +69,7 @@ public class CategoryManageController {
 
         if (iUserService.checkAdminRole(user).isSuccess()) {
             //查询子节点的category信息，并且不递归，保持平级
-return iCategoryService.getChildrenParallelCategory(categoryId);
+            return iCategoryService.getChildrenParallelCategory(categoryId);
         } else {
             return ServerResponse.createByErrorMessage("需要管理员权限");
         }
@@ -80,7 +78,7 @@ return iCategoryService.getChildrenParallelCategory(categoryId);
 
     @RequestMapping("get_deep_category.do")
     @ResponseBody
-    public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession httpSession , @RequestParam(value = "categoryId" , defaultValue = "0") Integer categoryId){
+    public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession httpSession, @RequestParam(value = "categoryId", defaultValue = "0") Integer categoryId) {
         User user = (User) httpSession.getAttribute(Constant.CURRENT_USER);
         if (null == user) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");

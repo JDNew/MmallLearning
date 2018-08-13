@@ -3,7 +3,6 @@ package com.mmall.service.Impl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mmall.common.ServerResponse;
-import com.mmall.controller.backend.CategoryManageController;
 import com.mmall.dao.CategoryMapper;
 import com.mmall.pojo.Category;
 import com.mmall.service.ICategoryService;
@@ -56,10 +55,9 @@ public class CategoryServiceImpl implements ICategoryService {
         int rowCount = categoryMapper.updateByPrimaryKeySelective(category);
         if (rowCount > 0) {
             return ServerResponse.createBySuccessMessage("更新品类名称成功");
-        }else{
+        } else {
             return ServerResponse.createByErrorMessage("更新品类名称失败");
         }
-
 
 
     }
@@ -68,20 +66,21 @@ public class CategoryServiceImpl implements ICategoryService {
     public ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId) {
         List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentID(categoryId);
         if (CollectionUtils.isEmpty(categoryList)) {
-logger.info("未找到当前分类的子分类");
+            logger.info("未找到当前分类的子分类");
         }
         return ServerResponse.createBySuccess(categoryList);
     }
 
     /**
      * 递归查询本节点的id及其子节点的id
+     *
      * @param categoryId
      * @return
      */
     @Override
-    public ServerResponse selectCategoryAndChildrenById(Integer categoryId) {
+    public ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId) {
         Set<Category> categorySet = Sets.newHashSet();
-        findChildCategory(categorySet , categoryId);
+        findChildCategory(categorySet, categoryId);
 
         List<Integer> categoryIdList = Lists.newArrayList();
         if (categoryId != null) {
@@ -93,7 +92,7 @@ logger.info("未找到当前分类的子分类");
         return ServerResponse.createBySuccess(categoryIdList);
     }
 
-    private Set<Category> findChildCategory(Set<Category> categorySet , Integer categoryId){
+    private Set<Category> findChildCategory(Set<Category> categorySet, Integer categoryId) {
         Category category = categoryMapper.selectByPrimaryKey(categoryId);
         if (category != null) {
             categorySet.add(category);
@@ -101,7 +100,7 @@ logger.info("未找到当前分类的子分类");
 
         List<Category> categoryList = categoryMapper.selectCategoryChildrenByParentID(categoryId);
         for (Category categoryItem : categoryList) {
-            findChildCategory(categorySet , categoryItem.getId());
+            findChildCategory(categorySet, categoryItem.getId());
         }
         return categorySet;
     }

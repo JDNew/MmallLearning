@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user/")
-public class  UserController {
+public class UserController {
 
 
     @Autowired
@@ -129,17 +129,16 @@ public class  UserController {
 
     @RequestMapping(value = "get_information.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> get_information(HttpSession httpSession){
+    public ServerResponse<User> get_information(HttpSession httpSession) {
         User currentUser = (User) httpSession.getAttribute(Constant.CURRENT_USER);
         if (null == currentUser) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，需要强制登录status=10");
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，需要强制登录status=10");
         }
 
-return iUserService.getInformation(currentUser.getId());
+        return iUserService.getInformation(currentUser.getId());
 
 
     }
-
 
 
 }
