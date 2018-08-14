@@ -15,6 +15,14 @@ public class Constant {
 
     }
 
+    public interface Cart{
+        int CHECKED = 1;
+        int UNCHECKED = 0;
+
+        String LIMIT_NUM_FAIL = "LIMIT_NUM_FAIL";
+        String Limit_NUM_SUCCESS = "Limit_NUM_SUCCESS";
+    }
+
     public interface Role {
         int ROLE_CUSTOMER = 0;//普通用户
         int ROLE_ADMIN = 1;//管理员
