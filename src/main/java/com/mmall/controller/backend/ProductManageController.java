@@ -128,7 +128,7 @@ public class ProductManageController {
         if (iUserService.checkAdminRole(user).isSuccess()) {
             String path = request.getSession().getServletContext().getRealPath("upload");
             String targetFileName = iFileService.upload(file, path);
-            String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+            String url = PropertiesUtil.getProperty(Constant.FTP_PREFIX) + targetFileName;
 
 
             Map fileMap = Maps.newHashMap();
@@ -174,7 +174,7 @@ public class ProductManageController {
             }
 
 
-            String url = PropertiesUtil.getProperty("ftp.server.http.prefix") + targetFileName;
+            String url = PropertiesUtil.getProperty(Constant.FTP_PREFIX) + targetFileName;
             resultMap.put("success", true);
             resultMap.put("msg", "上传成功");
             resultMap.put("filePath", url);

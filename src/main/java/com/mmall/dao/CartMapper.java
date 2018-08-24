@@ -1,5 +1,6 @@
 package com.mmall.dao;
 
+import com.alipay.api.domain.Car;
 import com.mmall.pojo.Cart;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +31,6 @@ public interface CartMapper {
                                   @Param("checked") Integer checked);
 
     int selectCartProductCount(@Param("userId") Integer userId);
+
+    List<Cart> selectCheckedCartByUserId(Integer userId);
 }

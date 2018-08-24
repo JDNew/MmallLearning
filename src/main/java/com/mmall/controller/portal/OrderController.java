@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,103 @@ public class OrderController {
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
     @Autowired
     private IOrderService iOrderService;
+
+
+    /**
+     * 创建订单
+     * @param httpSession
+     * @param shippingId
+     * @return
+     */
+    @RequestMapping("create.do")
+    @ResponseBody
+    public ServerResponse create(HttpSession httpSession , Integer shippingId){
+        User user = (User) httpSession.getAttribute(Constant.CURRENT_USER);
+        if (null == user) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+       return iOrderService.createOrder(user.getId() , shippingId);
+    }
+
+
+    /**
+     * 取消订单
+     * @param httpSession
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping("cancel.do")
+    @ResponseBody
+    public ServerResponse cancel(HttpSession httpSession , Long orderNo){
+        User user = (User) httpSession.getAttribute(Constant.CURRENT_USER);
+        if (null == user) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+        return iOrderService.cancel(user.getId() , orderNo);
+    }
+
+    /**
+     * 获取购物车信息
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping("get_order_cart_product.do")
+    @ResponseBody
+    public ServerResponse getOrderCartProduct(HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(Constant.CURRENT_USER);
+        if (null == user) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+        return iOrderService.getOrderCartProduct(user.getId());
+    }
+
+    /**
+     * 获取订单详情
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping("detail.do")
+    @ResponseBody
+    public ServerResponse detail(HttpSession httpSession , Long orderNo){
+        User user = (User) httpSession.getAttribute(Constant.CURRENT_USER);
+        if (null == user) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+        return iOrderService.getOrderDetail(user.getId() , orderNo);
+    }
+
+    /**
+     * 获取订单列表
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping("list.do")
+    @ResponseBody
+    public ServerResponse list(HttpSession httpSession , @RequestParam(value = "pageNum" , defaultValue = "1") int pageNum ,
+                               @RequestParam(value = "pageSize" , defaultValue = "10")  int pageSize){
+        User user = (User) httpSession.getAttribute(Constant.CURRENT_USER);
+        if (null == user) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), ResponseCode.NEED_LOGIN.getDesc());
+        }
+
+        return iOrderService.getOrderList(user.getId() , pageNum , pageSize);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * HttpServletRequest对象代表客户端的请求，当客户端通过HTTP协议访问服务器时，HTTP请求头中的所有信息都封装在这个对象中，

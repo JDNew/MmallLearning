@@ -10,6 +10,7 @@ public class Constant {
     public static final String CURRENT_USER = "currentUser";
     public static final String EMAIL = "email";
     public static final String USERNAME = "username";
+    public static final String FTP_PREFIX = "ftp.server.http.prefix";
 
     public interface ProductListOrderBy {
         Set<String> PRICE_ASC_DESC = Sets.newHashSet("price_desc", "price_asc");
@@ -62,6 +63,16 @@ public class Constant {
         public void setCode(int code) {
             this.code = code;
         }
+
+        public static OrderStatusEnum codeOf(int code){
+
+            for (OrderStatusEnum orderStatusEnum : values()) {
+                if (orderStatusEnum.getCode() == code) {
+                    return orderStatusEnum;
+                }
+            }
+            throw new RuntimeException("没有找到相对应的枚举");
+        }
     }
 
     public interface AlipayCallback{
@@ -98,6 +109,46 @@ public class Constant {
 
         public void setCode(int code) {
             this.code = code;
+        }
+    }
+
+    public enum PaymentTypeEnum{
+
+        ONLINE_PAY(1,"在线支付");
+
+        private String value;
+        private int code;
+
+        PaymentTypeEnum(int code ,String value){
+            this.value = value;
+            this.code = code;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+
+        public static PaymentTypeEnum codeOf(int code){
+
+            for (PaymentTypeEnum paymentTypeEnum : values()) {
+                if (paymentTypeEnum.getCode() == code) {
+                    return paymentTypeEnum;
+                }
+            }
+            throw new RuntimeException("没有找到相对应的枚举");
         }
     }
 
